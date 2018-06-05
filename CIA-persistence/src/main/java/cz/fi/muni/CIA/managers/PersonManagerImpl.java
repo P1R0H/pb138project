@@ -59,6 +59,7 @@ public class PersonManagerImpl implements PersonManager {
 					"} into $accounting//addressBook";
 			XQueryService service = (XQueryService) collection.getService("XQueryService", "1.0");
 			service.setProperty("indent", "yes");
+			service.setProperty("encoding", "UTF-8");
 			CompiledExpression compiled = service.compile(xQuery);
 
 			service.execute(compiled);
@@ -89,6 +90,7 @@ public class PersonManagerImpl implements PersonManager {
 			System.out.println(xQuery);
 			XQueryService service = (XQueryService) collection.getService("XQueryService", "1.0");
 			service.setProperty("indent", "yes");
+			service.setProperty("encoding", "UTF-8");
 			CompiledExpression compiled = service.compile(xQuery);
 
 			service.execute(compiled);
@@ -108,6 +110,7 @@ public class PersonManagerImpl implements PersonManager {
 			System.out.println(xQuery);
 			XQueryService service = (XQueryService) collection.getService("XQueryService", "1.0");
 			service.setProperty("indent", "yes");
+			service.setProperty("encoding", "UTF-8");
 			CompiledExpression compiled = service.compile(xQuery);
 
 			service.execute(compiled);
@@ -125,6 +128,7 @@ public class PersonManagerImpl implements PersonManager {
 					"return $personList//person[@pid='" + id + "']";
 			XQueryService service = (XQueryService) collection.getService("XQueryService", "1.0");
 			service.setProperty("indent", "yes");
+			service.setProperty("encoding", "UTF-8");
 			CompiledExpression compiledExpression = service.compile(xQuery);
 			ResourceSet resourceSet = service.execute(compiledExpression);
 			ResourceIterator resourceIterator = resourceSet.getIterator();
@@ -138,13 +142,14 @@ public class PersonManagerImpl implements PersonManager {
 
 	@Override
 	public List<Person> getAll() {
-		logger.log(Level.INFO, "Getting all person");
+		logger.log(Level.INFO, "Getting all persons");
 		List<Person> personList = new ArrayList<>();
 		try{
 			String xQuery = "let $personList := doc('" + configuration.getAccountingResourceName() + "')" +
 					"return $personList//person";
 			XQueryService service = (XQueryService) collection.getService("XQueryService", "1.0");
 			service.setProperty("indent", "yes");
+			service.setProperty("encoding", "UTF-8");
 			CompiledExpression compiledExpression = service.compile(xQuery);
 
 			ResourceSet resourceSet = service.execute(compiledExpression);
@@ -156,9 +161,8 @@ public class PersonManagerImpl implements PersonManager {
 			}
 		} catch (XMLDBException ex) {
 			logger.log(Level.SEVERE, "XMLDBException during get all person: " + ex.getMessage());
-			throw new PersonException("Error during get all person");
+			throw new PersonException("Error during get all persons");
 		}
 		return personList;
-
 	}
 }

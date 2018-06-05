@@ -57,6 +57,13 @@ public class InvoiceServiceImpl implements InvoiceService {
 	}
 
 	@Override
+	public List<Invoice> getInvoicesByPersonId(Long personId) {
+		idCheck(personId);
+		List<Invoice> allInvoices = getAllInvoices();
+		return selectInvoicesByPersonId(personId, allInvoices);
+	}
+
+	@Override
 	public List<Invoice> getInvoicesByPersonIdAndTypeAndDate(LocalDate oldest, LocalDate newest, Long personId, InvoiceType type) {
 		idCheck(personId);
 
@@ -104,6 +111,13 @@ public class InvoiceServiceImpl implements InvoiceService {
 		}
 	}
 
+	@Override
+	public List<Invoice> getInvoicesByPerson(Long personId) {
+		idCheck(personId);
+
+		return invoiceManager.getAllForPerson(personId);
+	}
+
 	private void idCheck(Long id) {
 		if (id == null) throw new IllegalArgumentException("Id cannot be null!");
 		if (id < 0) throw new IllegalArgumentException("Id cannot be less than zero!");
@@ -144,7 +158,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 		for (Invoice invoice: invoices) {
 
-			if (invoice.getRecipient().getId() == id || invoice.getPayer().getId() == id) satisfiableInvoices.add(invoice);
+			if (invoice.getRecipient().getId().equals(id) || invoice.getPayer().getId().equals(id)) satisfiableInvoices.add(invoice);
 		}
 		return satisfiableInvoices;
 	}
